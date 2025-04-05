@@ -1,0 +1,160 @@
+{
+  "conversation_id": "TECH_002",
+  "processing_time": {
+    "start": 1743848861.4449,
+    "steps": {
+      "summarization": 17.765032052993774,
+      "action_extraction": 32.000054359436035,
+      "knowledge_retrieval": 0.0,
+      "routing": 33.89899516105652,
+      "embeddings": 6.30862021446228
+    },
+    "total": 207.9643909931183
+  },
+  "sentiment_analysis": {
+    "overall_sentiment": {
+      "sentiment": "positive",
+      "score": 0.3333333333333333,
+      "positive_count": 2,
+      "negative_count": 1,
+      "positive_evidence": [
+        "good",
+        "fixed"
+      ],
+      "negative_evidence": [
+        "issue"
+      ]
+    },
+    "progression": [
+      {
+        "timestamp": "2023-07-15 10:00:00",
+        "sentiment": "neutral",
+        "score": 0.0
+      },
+      {
+        "timestamp": "2023-07-15 10:10:00",
+        "sentiment": "neutral",
+        "score": 0
+      },
+      {
+        "timestamp": "2023-07-15 10:20:00",
+        "sentiment": "positive",
+        "score": 1.0
+      }
+    ],
+    "shifts": [
+      {
+        "from_timestamp": "2023-07-15 10:10:00",
+        "to_timestamp": "2023-07-15 10:20:00",
+        "shift_value": 1.0,
+        "direction": "positive"
+      }
+    ]
+  },
+  "summary": "Main issue: The customer was experiencing an issue with their app saying \"no internet connection\" despite having a working Wi-Fi connection.\n\nAttempted solutions:\n\n* Checking the app's network permissions\n* Clearing the app cache\n\nFinal outcome or current status:\nThe customer turned on the app's local network permission and cleared the app cache, which fixed the issue. The agent flagged the issue to the development team for further investigation.",
+  "actions": {
+    "action_items": [
+      {
+        "action": "Action Items:",
+        "priority": "Low",
+        "status": "Pending"
+      },
+      {
+        "action": "1. Escalation: Flag the issue to the development team for further investigation. Priority: High.",
+        "priority": "High",
+        "status": "Pending"
+      },
+      {
+        "action": "2. Follow-up: Schedule a follow-up with the customer to provide an update on the investigation and potential solution(s). Priority: Medium.",
+        "priority": "Medium",
+        "status": "Pending"
+      },
+      {
+        "action": "3. Information provision: Provide the customer with a general explanation of why the issue may have occurred (i.e., recent update resetting permissions) and offer additional resources or support if needed. Priority: Low.",
+        "priority": "Low",
+        "status": "Pending"
+      },
+      {
+        "action": "4. Technical action: None required in this case.",
+        "priority": "Low",
+        "status": "Pending"
+      }
+    ],
+    "total_actions": 5
+  },
+  "knowledge_articles": [
+    {
+      "title": "Common Technical Issues and Solutions",
+      "content": "Troubleshooting steps for common technical problems: 1) Clear browser cache 2) Try a different network 3) Update software 4) Restart the application",
+      "url": "https://example.com/help/technical-issues",
+      "relevance": 0.95
+    },
+    {
+      "title": "Network Connectivity Problems",
+      "content": "Solutions for network-related errors: - Check internet connection - Verify firewall settings - Test alternative networks - Reset network settings",
+      "url": "https://example.com/help/network-connectivity",
+      "relevance": 0.9
+    },
+    {
+      "title": "Software Update Requirements",
+      "content": "Guide to updating software: 1) Check current version 2) Download latest update 3) Install update 4) Verify successful update",
+      "url": "https://example.com/help/software-updates",
+      "relevance": 0.85
+    }
+  ],
+  "routing": {
+    "recommended_team": "General Support",
+    "confidence": "High",
+    "justification": "",
+    "timestamp": "2023-06-15 10:15:00"
+  },
+  "similar_conversations": [
+    {
+      "source_type": "conversation",
+      "source_id": "TECH_002",
+      "text": "Main issue: The customer was experiencing an issue with their app saying \"no internet connection\" despite having a working Wi-Fi connection.\n\nAttempted solutions:\n\n* Checking the app's network permissions\n* Clearing the app cache\n\nFinal outcome or current status:\nThe customer turned on the app's local network permission and cleared the app cache, which fixed the issue. The agent flagged the issue to the development team for further investigation.",
+      "similarity": 14013.64840504965
+    },
+    {
+      "source_type": "conversation",
+      "source_id": "TECH_003",
+      "text": "The customer contacted support regarding an issue with their smart home app crashing every time they try to connect their older thermostat model (HT-2019). The agent confirmed the issue and provided two solutions: rolling back the app to version 4.9 or offering a discount on a compatible thermostat. The customer chose the discount option, but expressed disappointment with the situation. The agent apologized and promised to email the discount code shortly. Current status: Discount offer sent to customer.",
+      "similarity": 13238.344235804396
+    },
+    {
+      "source_type": "conversation",
+      "source_id": "TECH_004",
+      "text": "Main Issue: Customer's project data is not syncing between their laptop and tablet, with changes made on one device not reflecting on the other.\n\nAttempted Solutions:\n\n* Agent asks if both devices are logged into the same account\n* Agent requests sharing of sync logs\n* Agent manually resets corrupted sync token\n\nFinal Outcome/Current Status:\nThe issue has been resolved, and a patch will be released next week to prevent future occurrences.",
+      "similarity": 12935.175211673011
+    }
+  ],
+  "recommendations": {
+    "immediate_steps": [
+      {
+        "action": "Escalate to development team",
+        "details": "The customer's issue is related to a potential bug or compatibility problem with the app, which requires further investigation and potential fix by the development team."
+      },
+      {
+        "action": "Provide updates to customer",
+        "details": "Keep the customer informed of the progress on the escalation and any potential solutions."
+      }
+    ],
+    "complete_resolution_path": [
+      {
+        "action": "Investigate issue with development team",
+        "details": "The development team should investigate the issue and potentially fix the problem or provide a solution."
+      },
+      {
+        "action": "Provide solution to customer",
+        "details": "Once the issue is resolved, the customer should be provided with the updated app version or solution."
+      }
+    ],
+    "reasoning": "The customer's issue is related to a potential compatibility problem with the app, which requires further investigation and potential fix by the development team. The agent has already attempted to resolve the issue by checking the app's network permissions and clearing the app cache, but the problem persists. Therefore, escalating the issue to the development team is necessary to ensure a proper resolution.",
+    "confidence_score": 0.85
+  },
+  "time_prediction": {
+    "resolution_time_category": "quick",
+    "estimated_time": "1.5 hours",
+    "explanation": "Based on the simplicity of the issue and the actions taken so far, it is likely that the resolution will occur quickly, within a few hours at most."
+  }
+}

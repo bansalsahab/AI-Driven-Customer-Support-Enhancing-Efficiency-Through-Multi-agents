@@ -1,0 +1,49 @@
+{
+  "conversation_id": "conv456",
+  "processing_time": {
+    "start": 1743362264.643076,
+    "steps": {
+      "summarization": 0.0,
+      "action_extraction": 0.0,
+      "routing": 0.0,
+      "resolution_recommendation": 0.0,
+      "time_prediction": 0.0
+    },
+    "total": 0.0
+  },
+  "summary": "I'm not sure how to respond to that prompt.",
+  "actions": {
+    "action_items": [
+      {
+        "action": "Actions: 1. Escalate to technical team, 2. Follow up with customer within 24 hours",
+        "priority": "Low",
+        "status": "Pending"
+      }
+    ],
+    "total_actions": 1
+  },
+  "routing": {
+    "recommended_team": "General Support",
+    "confidence": "Medium",
+    "justification": "Actions: 1. Escalate to technical team, 2. Follow up with customer within 24 hours",
+    "timestamp": "2023-06-15 10:15:00"
+  },
+  "recommendations": {
+    "immediate_steps": [],
+    "complete_resolution_path": [],
+    "reasoning": "",
+    "confidence_score": 0.85,
+    "timestamp": "2023-06-15 10:20:00"
+  },
+  "time_prediction": {
+    "predicted_category": "medium",
+    "estimated_hours": 24,
+    "confidence_score": 0.7,
+    "factors": [
+      "issue complexity",
+      "required actions",
+      "team workload"
+    ],
+    "timestamp": "2023-06-15 10:25:00"
+  }
+}
