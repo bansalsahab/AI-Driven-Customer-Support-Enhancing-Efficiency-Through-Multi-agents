@@ -21,6 +21,7 @@ A comprehensive AI system that automates key processes in customer support opera
   - Local Knowledge Base for article retrieval
   - Web Scraper for fetching information from websites
   - Sentiment Analyzer for customer sentiment analysis
+- **Streamlit Web Interface**: User-friendly dashboard for analyzing conversations and visualizing results
 - **Configuration**: Environment variables and command line options
 
 ## Project Structure
@@ -44,7 +45,9 @@ customer_support_ai/
 │   ├── llm_interface.py         # Interface for Ollama LLM
 │   ├── database.py              # SQLite database interface
 │   └── custom_tools.py          # Knowledge base, web scraper, sentiment analyzer
-├── app.py                       # Main application
+├── app.py                       # Main application (CLI)
+├── streamlit_app.py             # Streamlit web interface
+├── streamlit_app_readme.md      # Streamlit app documentation
 ├── process_usecase_conversations.py # Script for processing usecase conversations
 ├── init_db.py                   # Database initialization script
 ├── requirements.txt             # Dependencies
@@ -62,8 +65,8 @@ customer_support_ai/
 ### Step 1: Clone the Repository
 
 ```bash
-git clone https://github.com/your-username/customer-support-ai.git
-cd customer-support-ai
+git clone https://github.com/bansalsahab/AI-Driven-Customer-Support-Enhancing-Efficiency-Through-Multi-agents.git
+cd AI-Driven-Customer-Support-Enhancing-Efficiency-Through-Multi-agents
 ```
 
 ### Step 2: Set Up Python Environment
@@ -125,30 +128,37 @@ python init_db.py --sample-data
 
 ## Running the Application
 
-### Process a Sample Conversation
+### Option 1: Using the Streamlit Web Interface (Recommended)
+
+The Streamlit interface provides a user-friendly dashboard for conversation analysis and visualization.
 
 ```bash
+# Start the Streamlit app
+python -m streamlit run streamlit_app.py
+```
+
+This will open a web browser at `http://localhost:8501` with the dashboard.
+
+**Features of the Streamlit interface:**
+- Upload or paste conversations for analysis
+- Interactive visualization of analysis results
+- Tabbed interface for different aspects of the analysis (summary, sentiment, actions, etc.)
+- Visual charts for sentiment, processing time, and other metrics
+- Browse previously analyzed conversations
+
+For more details, see the [Streamlit App Documentation](streamlit_app_readme.md).
+
+### Option 2: Using the Command Line Interface
+
+```bash
+# Process a sample conversation
 python app.py --conversation billing_issue --verbose
-```
 
-This will process a predefined billing issue conversation and display detailed output.
-
-### Process Usecase Conversations
-
-To process the conversation examples in the Usecase 7 folder:
-
-```bash
-# Process all conversations in the default directory
+# Process conversations in the Usecase 7 folder
 python process_usecase_conversations.py --verbose
-
-# Process conversations in a specific directory
-python process_usecase_conversations.py --directory "[Usecase 7] AI-Driven Customer Support Enhancing Efficiency Through Multiagents/Conversation" --verbose
-
-# Specify a custom output directory
-python process_usecase_conversations.py --output-dir custom_results --verbose
 ```
 
-The results will be saved as JSON files in the output directory (default: `results/`).
+This will process the conversation and display detailed output in the terminal.
 
 ### Command Line Options for app.py
 
@@ -182,6 +192,12 @@ The results will be saved as JSON files in the output directory (default: `resul
 - Increase verbosity with the `--verbose` flag
 - Try running with the `--simulate` flag to test without using Ollama
 
+### Streamlit Interface Issues
+
+- Make sure you have installed streamlit: `pip install streamlit`
+- If charts aren't displaying, check if matplotlib and plotly are installed
+- For input parsing issues, check the conversation format in the documentation
+
 ## Processing Pipeline
 
 The system processes each conversation through the following pipeline:
@@ -197,6 +213,150 @@ The system processes each conversation through the following pipeline:
 9. Predict resolution time
 10. Store all results in the database
 
+## Agent Interaction Design
+
+The Customer Support AI is designed as a multi-agent system where specialized agents work together to provide comprehensive analysis of support conversations. The system follows a sequential pipeline model with information flowing from one agent to the next.
+
+### Agent Communication Flow
+
+```
+                          ┌─────────────────┐
+                          │   Raw Support   │
+                          │  Conversation   │
+                          └────────┬────────┘
+                                   ▼
+                        ┌──────────────────────┐
+                        │  Sentiment Analyzer  │◄───┐
+                        └──────────┬───────────┘    │
+                                   ▼                │
+                      ┌─────────────────────────┐   │
+                      │   Summarization Agent   │   │
+                      └──────────┬──────────────┘   │
+                                 ▼                  │
+                     ┌──────────────────────────┐   │
+                     │  Action Extraction Agent │   │
+                     └──────────┬───────────────┘   │
+                                ▼                   │
+                     ┌──────────────────────────┐   │
+                     │     Knowledge Base       │   │
+                     │   Retrieval System       │   │
+                                ▼                   │
+                     ┌──────────────────────────┐   │
+                     │      Routing Agent       │   │
+                     └──────────┬───────────────┘   │
+                                ▼                   │
+                    ┌─────────────────────────────┐ │
+                    │ Resolution Recommendation   │ │
+                    │          Agent              │ │
+                    └──────────┬─────────────────┘ │
+                               ▼                   │
+                    ┌─────────────────────────────┐│
+                    │   Time Prediction Agent     ├┘
+                    └─────────────────────────────┘
+```
+
+### Agent Coordination
+
+The system uses a **Orchestrator Pattern** where the main application (app.py) coordinates the activities of all agents:
+
+1. **Data Sharing**: Agents share information through the orchestrator
+   - Each agent receives the conversation and outputs from previous agents
+   - Results from each stage are stored in the database for persistence
+
+2. **Independent Specialization**: Each agent is highly specialized
+   - Summarization Agent focuses only on generating concise summaries
+   - Action Extraction Agent identifies specific action items
+   - Routing Agent determines which team should handle the ticket
+
+3. **Loose Coupling**: Agents are designed with minimal dependencies
+   - Each agent has a well-defined interface with clear inputs and outputs
+   - Agents can be modified or replaced individually without affecting others
+
+4. **Standardized Communication**: All agents use a common LLM interface
+   - The LLMInterface class provides consistent access to language models
+   - Standardized prompting patterns ensure consistent agent behavior
+
+## Code Structure and Architecture
+
+The codebase is organized using a modular architecture following these design principles:
+
+### Core Components
+
+1. **Main Application (app.py)**
+   - Serves as the orchestrator for the entire system
+   - Initializes all agents and tools
+   - Manages the processing pipeline
+
+2. **Agent Modules (agents/)**
+   - Each agent is implemented as a separate class
+   - All agents follow a common interface pattern
+   - Each agent has a primary method that performs its specific task
+
+3. **Utilities (utils/)**
+   - **LLM Interface**: Abstraction layer for language model access
+   - **Database**: Data persistence layer with SQL operations
+   - **Data Processor**: Conversation formatting and processing
+   - **Custom Tools**: Knowledge base, web scraping, sentiment analysis
+
+4. **Web Interface (streamlit_app.py)**
+   - Provides a user-friendly dashboard
+   - Visualizes results from all agents
+   - Allows for interactive conversation analysis
+
+### Design Patterns
+
+1. **Strategy Pattern**
+   - Different LLM providers can be swapped (Ollama, simulated responses)
+   - Processing strategies can be changed without modifying the core logic
+
+2. **Repository Pattern**
+   - Database class encapsulates all data access logic
+   - Provides methods for storing and retrieving different types of data
+
+3. **Facade Pattern**
+   - The CustomerSupportAI class provides a simplified interface to the complex system
+   - Clients interact with a single entry point rather than multiple subsystems
+
+4. **Dependency Injection**
+   - All agents receive their dependencies through constructors
+   - Makes testing and configuration more flexible
+
+### Code Organization
+
+```python
+# Example agent structure
+class SummarizationAgent:
+    def __init__(self, llm_interface):
+        self.llm_interface = llm_interface
+        self.data_processor = DataProcessor()
+        
+    def summarize(self, conversation):
+        # Format the conversation
+        formatted_text = self.data_processor.format_conversation_for_summarization(conversation)
+        
+        # Create the prompt
+        prompt = self._create_summarization_prompt(formatted_text)
+        
+        # Generate the summary using the LLM
+        summary = self.llm_interface.generate_response(prompt)
+        
+        return summary
+        
+    def _create_summarization_prompt(self, formatted_text):
+        # Create a specialized prompt for summarization
+        return f"""Generate a concise summary of the following customer support conversation.
+        Focus on three key points:
+        1. Main issue
+        2. Attempted solutions
+        3. Final outcome or current status
+        
+        Conversation:
+        {formatted_text}
+        """
+```
+
+This architecture allows for easy extension of the system with new agents or capabilities while maintaining a clear separation of concerns and flexibility in deployment options.
+
 ## Example Workflow
 
 ```bash
@@ -204,18 +364,20 @@ The system processes each conversation through the following pipeline:
 ollama serve
 
 # In a new terminal window:
-cd customer-support-ai
+cd AI-Driven-Customer-Support-Enhancing-Efficiency-Through-Multi-agents
 source venv/bin/activate  # or venv\Scripts\activate on Windows
 
 # Initialize the database
 python init_db.py --sample-data
 
-# Process a sample conversation
+# Option 1: Run the Streamlit web interface
+python -m streamlit run streamlit_app.py
+
+# Option 2: Process a sample conversation via CLI
 python app.py --conversation technical_issue --verbose
 
-# Process usecase conversations
+# Option 3: Process usecase conversations
 python process_usecase_conversations.py --verbose
-
-# View the results
-cat results/Network_Connectivity_Issue_results.json
 ```
+
+
