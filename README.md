@@ -1,4 +1,4 @@
-# Multi-Agent AI System for Customer Support
+# Multi-Agent AI System for Customer-Support
 
 A comprehensive AI system that automates key processes in customer support operations through multiple specialized agents. This system uses Ollama for local LLM processing, eliminating the need for external API services.
 
